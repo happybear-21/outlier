@@ -1,11 +1,5 @@
 import { pgTable, timestamp, uuid, text } from "drizzle-orm/pg-core";
 
-export const settings = pgTable('settings', {
-  username: text("username").notNull(),
-  theme: text("theme").default("system"),
-  language: text("language").default("en"),
-})
-
 export const workspaces = pgTable('workspaces', {
   id: uuid('id').defaultRandom().primaryKey().notNull(),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }),

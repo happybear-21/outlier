@@ -3,7 +3,8 @@ import { Button } from "./ui/button";
 import { SettingsIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function Header() {
+export default async function Header() {
+
   return (
     <div className="flex items-center justify-between px-6 py-4 border-b-[0.4px]">
       <h1>Hi, John</h1>
