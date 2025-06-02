@@ -1,13 +1,13 @@
 import { getWorkspaces } from "@/lib/supabase/queries/workspaces"
-import { Button } from "@/components/ui/button"
+import { CreateWorkspaceDialog } from "@/components/workspace/create-workspace-dialog"
 
 export default async function Home() {
   const workspaces = await getWorkspaces()
   return (
     <div className="px-6 py-4">
       <div className="flex justify-between items-center mb-4">
-        <h1>Workspaces</h1>
-        <Button>Add Workspace</Button>
+        <h1 className="text-xl">Workspaces</h1>
+        <CreateWorkspaceDialog />
       </div>
       {workspaces.length === 0 ? (
         <p className="text-muted-foreground text-center">No workspaces found.</p>
