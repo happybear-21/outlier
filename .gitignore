@@ -42,3 +42,5 @@ next-env.d.ts
 
 migrations/meta/
 migrations/*.sql
+
+user-settings.json
