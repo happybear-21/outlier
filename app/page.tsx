@@ -1,8 +1,11 @@
 import { getWorkspaces } from "@/lib/supabase/queries/workspaces"
 import { CreateWorkspaceDialog } from "@/components/workspace/create-workspace-dialog"
+import { unstable_noStore as noStore } from 'next/cache'
 
 export default async function Home() {
+  noStore()
   const workspaces = await getWorkspaces()
+
   return (
     <div className="px-6 py-4">
       <div className="flex justify-between items-center mb-4">

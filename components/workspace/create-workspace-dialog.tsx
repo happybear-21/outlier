@@ -23,17 +23,15 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required").max(50, "Title must be less than 50 characters"),
 })
 
-interface CreateWorkspaceDialogProps {
-  onSuccess?: () => void
-}
-
-export function CreateWorkspaceDialog({ onSuccess }: CreateWorkspaceDialogProps) {
+export function CreateWorkspaceDialog() {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,7 +56,7 @@ export function CreateWorkspaceDialog({ onSuccess }: CreateWorkspaceDialogProps)
 
       setOpen(false)
       form.reset()
-      onSuccess?.()
+      router.refresh() // This will trigger a refresh of the server components
     } catch (error) {
       console.error("Error creating workspace:", error)
     }
