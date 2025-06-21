@@ -15,3 +15,9 @@ export async function getWorkspaceById(id: string) {
 
   return result[0] || null;
 }
+
+export async function deleteWorkspace(id: string) {
+  return await db
+    .delete(workspaces)
+    .where(eq(workspaces.id, id));
+}
