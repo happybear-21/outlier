@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
-import db from "@/lib/supabase/db"
-import { workspaces } from "@/lib/supabase/schema"
+import db from "@/lib/db/db"
+import { workspaces } from "@/lib/db/schema"
 
 export async function POST(req: Request) {
   try {
