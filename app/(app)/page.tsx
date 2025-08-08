@@ -4,7 +4,8 @@ import { yellowTail } from "@/lib/font"
 import { PlusIcon } from "lucide-react"
 
 export default function Home() {
-  const workspaces = Array.from({ length: 8 }).map((_, index) => ({
+  const workspaces = Array.from({ length: 13 }).map((_, index) => ({
+    id: `${index + 1}`,
     name: `Workspace ${index + 1}`,
     createdAt: "Aug 1, 2025",
     updatedAt: "Aug 7, 2025",
@@ -23,9 +24,10 @@ export default function Home() {
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
-        {workspaces.map((workspace, index) => (
+        {workspaces.map((workspace) => (
           <WorkspaceCard
-            key={index}
+            key={workspace.id}
+            id={workspace.id}
             name={workspace.name}
             createdAt={workspace.createdAt}
             updatedAt={workspace.updatedAt}

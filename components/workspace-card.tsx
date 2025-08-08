@@ -2,12 +2,14 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 
 interface WorkspaceCardProps {
+  id: string;
   name: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export default function WorkspaceCard({
+  id,
   name,
   createdAt,
   updatedAt,
@@ -17,7 +19,7 @@ export default function WorkspaceCard({
       <div className="flex justify-between items-start mb-2">
         <h1 className="text-md font-medium">{name}</h1>
         <Button asChild>
-          <Link href="/editor">Open</Link>
+          <Link href={`/editor?workspace-id=${id}`}>Open</Link>
         </Button>
       </div>
       <div className="text-sm text-muted-foreground">
@@ -27,3 +29,4 @@ export default function WorkspaceCard({
     </div>
   );
 }
+
