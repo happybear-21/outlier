@@ -4,7 +4,6 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers";
 import SiteHeader from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -41,7 +40,6 @@ export default function RootLayout({
               <div className="relative flex min-h-svh flex-col bg-background">
                 <SiteHeader />
                 {children}
-                <SiteFooter />
               </div>
             </div>
           </ThemeProvider>
