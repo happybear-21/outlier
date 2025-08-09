@@ -9,7 +9,6 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useCreateBlockNote } from "@blocknote/react";
 
-
 function Editor() {
   const searchParams = useSearchParams();
   const workspaceId = searchParams.get('workspace-id');
@@ -23,18 +22,28 @@ function Editor() {
   }
 
   return (
-    <div className="h-[90svh] flex flex-col w-full">
+    <div className="h-[90svh] w-full flex flex-col items-center overflow-auto">
       {filename ? (
         <>
-          <div className="text-xl font-semibold px-8 pt-6 pb-2 bg-background shadow-sm shrink-0">
-            {filename}
-          </div>
-          <div className="flex-1 min-h-0 w-full overflow-auto">
-            <BlockNoteView editor={editor} className="h-full w-full" />
+          <div className="w-full h-48 md:h-56 lg:h-64 rounded-b-2xl shadow bg-gradient-to-br from-gray-800 to-black text-white" />
+          <div className="w-full max-w-6xl -mt-12 md:-mt-16 lg:-mt-20 px-4 md:px-0 z-10">
+            <div className="flex flex-col items-start">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
+                {filename}
+              </h1>
+              <div className="w-full h-[600px] rounded-lg overflow-auto border border-white/10 bg-transparent">
+                <BlockNoteView
+                  editor={editor} data-theming-css-variables-demo
+                  className="h-full w-full bg-secondary text-white prose prose-invert"
+                />
+              </div>
+            </div>
           </div>
         </>
       ) : (
-        <div className="text-muted-foreground flex-1 flex items-center justify-center">No file selected</div>
+        <div className="text-muted-foreground flex-1 flex items-center justify-center">
+          No file selected
+        </div>
       )}
     </div>
   );
@@ -42,7 +51,13 @@ function Editor() {
 
 export default function EditorPage() {
   return (
-    <Suspense fallback={<div className='flex flex-row items-center justify-center h-[90svh]'><CircleIcon /></div>}>
+    <Suspense
+      fallback={
+        <div className='flex flex-row items-center justify-center h-[90svh]'>
+          <CircleIcon className="animate-spin text-muted" />
+        </div>
+      }
+    >
       <Editor />
     </Suspense>
   );
