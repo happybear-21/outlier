@@ -20,8 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { ChevronDown, PlusCircle, Trash2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { workspaces } from "@/data/workspaces";
 import { filesByWorkspace } from "@/data/files";
@@ -30,9 +30,24 @@ export function AppSidebar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const workspaceId = searchParams.get("workspace-id");
+  const fileId = searchParams.get("file-id");
 
   const [workspaceSearch, setWorkspaceSearch] = useState("");
   const [fileSearch, setFileSearch] = useState("");
+
+  // Automatically select first file when workspace changes
+  React.useEffect(() => {
+    if (!workspaceId) return;
+    const files = getFilesForWorkspace(workspaceId);
+    if (files.length === 0) return;
+    // If no file-id in URL or file-id is not in current files, set to first file
+    if (!fileId || !files.some(f => f.id === fileId)) {
+      const params = new URLSearchParams(Array.from(searchParams.entries()));
+      params.set("workspace-id", workspaceId);
+      params.set("file-id", files[0].id);
+      router.replace(`?${params.toString()}`);
+    }
+  }, [workspaceId]);
 
   const getFilteredWorkspaces = () =>
     workspaces.filter((w) =>
@@ -46,8 +61,14 @@ export function AppSidebar() {
     id ? filesByWorkspace[id] || [] : [];
 
   const setWorkspaceId = (id: string) => {
+    const files = getFilesForWorkspace(id);
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     params.set("workspace-id", id);
+    if (files.length > 0) {
+      params.set("file-id", files[0].id);
+    } else {
+      params.delete("file-id");
+    }
     router.push(`?${params.toString()}`);
     setFileSearch("");
     setWorkspaceSearch("");
@@ -131,7 +152,21 @@ export function AppSidebar() {
           {filteredFiles.length > 0 ? (
             filteredFiles.map((file) => (
               <SidebarMenuItem key={file.id}>
-                <SidebarMenuButton>{file.name}</SidebarMenuButton>
+                <SidebarMenuButton
+                  onClick={() => {
+                    const params = new URLSearchParams(Array.from(searchParams.entries()));
+                    params.set("workspace-id", workspaceId || "");
+                    params.set("file-id", file.id);
+                    router.push(`?${params.toString()}`);
+                  }}
+                  className={
+                    fileId === file.id
+                      ? "bg-accent text-accent-foreground"
+                      : undefined
+                  }
+                >
+                  {file.name}
+                </SidebarMenuButton>
               </SidebarMenuItem>
             ))
           ) : (
