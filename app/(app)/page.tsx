@@ -2,15 +2,9 @@ import { Button } from "@/components/ui/button"
 import WorkspaceCard from "@/components/workspace-card"
 import { yellowTail } from "@/lib/font"
 import { PlusIcon } from "lucide-react"
+import { workspaces } from "@/data/workspaces"
 
 export default function Home() {
-  const workspaces = Array.from({ length: 13 }).map((_, index) => ({
-    id: `${index + 1}`,
-    name: `Workspace ${index + 1}`,
-    createdAt: "Aug 1, 2025",
-    updatedAt: "Aug 7, 2025",
-  }));
-
   return (
     <div className="px-4 py-2 md:px-6 md:py-4 lg:px-8 h-[90svh] md:h-[87svh] flex flex-col">
       <div className="flex items-center w-full">
