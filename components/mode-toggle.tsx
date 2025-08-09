@@ -1,57 +1,26 @@
-'use client';
+"use client"
 
-import * as React from 'react';
-import { MoonIcon, SunIcon } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { Button } from './ui/button';
+import * as React from "react"
+import { MoonIcon, SunIcon } from "lucide-react"
+import { useTheme } from "next-themes"
+import { Button } from "./ui/button"
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
+  const { theme, setTheme } = useTheme()
 
-  React.useEffect(() => {
-    async function loadTheme() {
-      try {
-        const res = await fetch('/api/settings');
-        const data = await res.json();
-        if (data.theme) {
-          setTheme(data.theme);
-        }
-      } catch (error) {
-        console.error('Failed to fetch theme from settings:', error);
-      } finally {
-        setMounted(true);
-      }
-    }
-
-    loadTheme();
-  }, [setTheme]);
-
-  const handleToggle = async () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-
-    try {
-      await fetch('/api/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ theme: newTheme }),
-      });
-    } catch (error) {
-      console.error('Failed to update theme in settings:', error);
-    }
-  };
-
-  if (!mounted) return null;
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   return (
-    <Button variant="ghost" className="h-8 w-8 px-0" onClick={handleToggle}>
-      {theme === 'dark' ? (
-        <SunIcon className="h-[1.2rem] w-[1.2rem] transition-all" />
-      ) : (
-        <MoonIcon className="h-[1.2rem] w-[1.2rem] transition-all" />
-      )}
-      <span className="sr-only">Toggle theme</span>
+    <Button
+      variant="ghost"
+      className="h-8 w-8 px-0"
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
+    >
+      <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
     </Button>
-  );
+  )
 }
